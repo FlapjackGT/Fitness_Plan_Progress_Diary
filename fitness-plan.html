@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10-Month Fitness Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --surface2: #1c1c26;
+    --border: #2a2a38;
+    --accent: #e8ff47;
+    --accent2: #47c4ff;
+    --accent3: #ff6b47;
+    --text: #e8e8f0;
+    --muted: #6b6b8a;
+    --gym-a: #e8ff47;
+    --gym-b: #b8d400;
+    --spin: #47c4ff;
+    --run: #ff9f47;
+    --hockey: #ff6b47;
+    --rest: #3a3a4a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    padding: 3rem 2rem 2rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .title-block h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 8vw, 6rem);
+    line-height: 0.9;
+    color: var(--accent);
+    letter-spacing: 2px;
+  }
+
+  .title-block p {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 0.5rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .stats-bar {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    text-align: right;
+  }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--accent2);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* LEGEND */
+  .legend {
+    max-width: 1400px;
+    margin: 1.5rem auto 0;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    padding: 0 2rem;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  /* CONTROLS */
+  .controls {
+    max-width: 1400px;
+    margin: 1.5rem auto 0;
+    padding: 0 2rem 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .month-tabs {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .month-tab {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.15s;
+  }
+
+  .month-tab:hover { border-color: var(--accent); color: var(--accent); }
+  .month-tab.active { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 500; }
+
+  .view-toggle {
+    display: flex;
+    gap: 0.4rem;
+    margin-left: auto;
+  }
+
+  .view-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.15s;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .view-btn.active { background: var(--surface2); color: var(--text); border-color: var(--accent2); }
+
+  /* MAIN CONTENT */
+  main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  /* MONTH VIEW */
+  .month-view { display: none; }
+  .month-view.visible { display: block; }
+
+  .month-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .month-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .month-phase {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: 1px solid var(--accent);
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+  }
+
+  /* CALENDAR GRID */
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+  }
+
+  .cal-day-header {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    text-align: center;
+    padding: 0.5rem 0;
+  }
+
+  .cal-day {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.6rem 0.5rem;
+    min-height: 90px;
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cal-day:hover { border-color: var(--accent2); transform: translateY(-1px); }
+  .cal-day.empty { background: transparent; border-color: transparent; cursor: default; }
+  .cal-day.empty:hover { transform: none; }
+  .cal-day.today { border-color: var(--accent2); }
+  .cal-day.checked { opacity: 0.6; }
+  .cal-day.checked::after {
+    content: '✓';
+    position: absolute;
+    top: 4px;
+    right: 6px;
+    color: var(--accent);
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
+
+  .day-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+
+  .day-pill {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.15rem 0.4rem;
+    border-radius: 2px;
+    margin-bottom: 0.2rem;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .day-detail {
+    font-size: 0.62rem;
+    color: var(--muted);
+    line-height: 1.3;
+    margin-top: 0.3rem;
+  }
+
+  /* Activity colors */
+  .pill-gym-a { background: var(--gym-a); color: #0a0a0f; }
+  .pill-gym-b { background: var(--gym-b); color: #0a0a0f; }
+  .pill-spin { background: var(--spin); color: #0a0a0f; }
+  .pill-run { background: var(--run); color: #0a0a0f; }
+  .pill-hockey { background: var(--hockey); color: #fff; }
+  .pill-rest { background: var(--rest); color: var(--muted); }
+
+  /* LIST VIEW */
+  .list-view { display: none; }
+  .list-view.visible { display: block; }
+
+  .list-month-group { margin-bottom: 3rem; }
+
+  .list-month-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    color: var(--text);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.8rem;
+  }
+
+  .list-week {
+    margin-bottom: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .list-week-header {
+    background: var(--surface2);
+    padding: 0.5rem 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+  }
+
+  .list-day-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.7rem 1rem;
+    border-top: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+
+  .list-day-row:hover { background: var(--surface); }
+  .list-day-row.checked { opacity: 0.5; }
+
+  .list-day-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    width: 2.5rem;
+    flex-shrink: 0;
+  }
+
+  .list-day-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    width: 5rem;
+    flex-shrink: 0;
+  }
+
+  .list-day-activity { flex: 1; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+
+  .list-day-notes {
+    font-size: 0.75rem;
+    color: var(--muted);
+    flex: 2;
+  }
+
+  .check-btn {
+    width: 22px;
+    height: 22px;
+    border: 1.5px solid var(--border);
+    border-radius: 3px;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s;
+    color: transparent;
+    font-size: 0.75rem;
+  }
+
+  .check-btn:hover { border-color: var(--accent); }
+  .check-btn.done { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+
+  /* PROGRESS BAR */
+  .progress-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin-bottom: 0.8rem;
+  }
+
+  .progress-bar {
+    height: 6px;
+    background: var(--surface2);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 3px;
+    transition: width 0.5s ease;
+  }
+
+  .phase-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.8rem;
+    margin-top: 1.2rem;
+  }
+
+  .phase-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.8rem;
+  }
+
+  .phase-card-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent);
+    margin-bottom: 0.3rem;
+  }
+
+  .phase-card-months {
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .phase-card-focus {
+    font-size: 0.8rem;
+    color: var(--text);
+    margin-top: 0.2rem;
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    max-width: 480px;
+    width: 100%;
+    position: relative;
+  }
+
+  .modal-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .modal-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    line-height: 1;
+    margin-bottom: 1.5rem;
+  }
+
+  .modal-section {
+    margin-bottom: 1.2rem;
+  }
+
+  .modal-section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+
+  .modal-section-body {
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+
+  .modal-close:hover { border-color: var(--accent3); color: var(--accent3); }
+
+  .modal-check-btn {
+    width: 100%;
+    padding: 0.8rem;
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 1rem;
+    transition: all 0.15s;
+  }
+
+  .modal-check-btn:hover { background: var(--accent); color: var(--bg); }
+  .modal-check-btn.done { background: var(--accent); color: var(--bg); }
+
+  @media (max-width: 600px) {
+    header { padding: 1.5rem 1rem 1rem; }
+    .header-inner { flex-direction: column; align-items: flex-start; }
+    .stats-bar { flex-direction: row; }
+    .stat { text-align: left; }
+    main { padding: 1rem; }
+    .cal-grid { gap: 2px; }
+    .cal-day { min-height: 70px; padding: 0.4rem; }
+    .legend { padding: 0 1rem; }
+    .controls { padding: 0 1rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="title-block">
+      <h1>FUEL &amp;<br>FORGE</h1>
+      <p>10-Month Muscle-Build Programme · May 2026 – Feb 2027</p>
+    </div>
+    <div class="stats-bar">
+      <div class="stat">
+        <div class="stat-num" id="totalDays">305</div>
+        <div class="stat-label">Total Days</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="completedCount">0</div>
+        <div class="stat-label">Completed</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="pctDone">0%</div>
+        <div class="stat-label">Done</div>
+      </div>
+    </div>
+  </div>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--gym-a)"></div>Gym A</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--gym-b)"></div>Gym B</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--spin)"></div>Spin</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--run)"></div>Run</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--hockey)"></div>Hockey</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--rest)"></div>Rest</div>
+  </div>
+  <div class="controls">
+    <div class="month-tabs" id="monthTabs"></div>
+    <div class="view-toggle">
+      <button class="view-btn active" onclick="setView('calendar')">Calendar</button>
+      <button class="view-btn" onclick="setView('list')">List</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="progress-section">
+    <div class="progress-label">
+      <span>Overall Progress</span>
+      <span id="progressLabel">0 / 305 training sessions</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="phase-grid">
+      <div class="phase-card">
+        <div class="phase-card-name">Phase 1 · Foundation</div>
+        <div class="phase-card-months">May – Jun 2026</div>
+        <div class="phase-card-focus">Learn movement patterns, build base strength</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-card-name">Phase 2 · Hypertrophy</div>
+        <div class="phase-card-months">Jul – Sep 2026</div>
+        <div class="phase-card-focus">Volume increase, progressive overload, 10k goal</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-card-name">Phase 3 · Intensification</div>
+        <div class="phase-card-months">Oct – Nov 2026</div>
+        <div class="phase-card-focus">Heavier loads, compound focus, strength peaks</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-card-name">Phase 4 · Peak &amp; Maintain</div>
+        <div class="phase-card-months">Dec 2026 – Feb 2027</div>
+        <div class="phase-card-focus">Consolidate gains, maintain through holiday season</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="calendarViews"></div>
+  <div id="listViews"></div>
+</main>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModalBtn()">✕</button>
+    <div class="modal-date" id="modalDate"></div>
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-section">
+      <div class="modal-section-label">Activity</div>
+      <div class="modal-section-body" id="modalActivity"></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Focus</div>
+      <div class="modal-section-body" id="modalFocus"></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Notes</div>
+      <div class="modal-section-body" id="modalNotes"></div>
+    </div>
+    <button class="modal-check-btn" id="modalCheckBtn" onclick="toggleFromModal()">Mark Complete</button>
+  </div>
+</div>
+
+<script>
+// =====================
+// DATA GENERATION
+// =====================
+
+const phases = [
+  { name: "Foundation", start: new Date(2026,4,1), end: new Date(2026,5,30) },
+  { name: "Hypertrophy", start: new Date(2026,6,1), end: new Date(2026,8,30) },
+  { name: "Intensification", start: new Date(2026,9,1), end: new Date(2026,10,30) },
+  { name: "Peak & Maintain", start: new Date(2026,11,1), end: new Date(2027,1,28) },
+];
+
+function getPhase(date) {
+  for (const p of phases) {
+    if (date >= p.start && date <= p.end) return p.name;
+  }
+  return "Peak & Maintain";
+}
+
+// Full body A/B alternating gym programme
+const gymA = {
+  label: "Gym A",
+  pill: "pill-gym-a",
+  focus: "Squat · Bench · Row",
+  notes: "Full Body A: Barbell Squat 4×6-8, Bench Press 4×6-8, Bent-over Row 3×8-10, Overhead Press 3×8-10, Romanian Deadlift 3×10-12, Core work. Rest 2-3min between heavy sets."
+};
+const gymB = {
+  label: "Gym B",
+  pill: "pill-gym-b",
+  focus: "Deadlift · Press · Pull",
+  notes: "Full Body B: Conventional Deadlift 4×5, Incline DB Press 4×8-10, Pull-ups/Lat Pulldown 4×8-10, Bulgarian Split Squat 3×10, DB Shoulder Press 3×10-12, Core work. Focus on form."
+};
+const spin = {
+  label: "Spin",
+  pill: "pill-spin",
+  focus: "Cardiovascular endurance",
+  notes: "45-60min spin class. Keep HR in zone 2-3 mostly. Good for cardiovascular base without impacting muscle recovery. Stay hydrated — keep intensity manageable given respiratory health."
+};
+const runPhase = [
+  { label: "Run 2k", pill: "pill-run", focus: "Easy intro run", notes: "Easy 2km Saturday run. Build the habit at a comfortable pace. Focus on breathing control. No pressure on speed — just get moving." },
+  { label: "Run 3k", pill: "pill-run", focus: "Building base", notes: "3km easy-moderate on Saturday. Allow walk breaks if needed. Part of the 12-week 5k-to-10k build." },
+  { label: "Run 4k", pill: "pill-run", focus: "Endurance building", notes: "4km steady run. Should feel comfortably challenging. Breathing controlled. You're progressing well." },
+  { label: "Run 5k", pill: "pill-run", focus: "5k Saturday standard", notes: "5km — your regular Saturday distance. Keep an easy-moderate conversational pace. This is now your weekly baseline." },
+  { label: "Run 5k", pill: "pill-run", focus: "Consistency at 5k", notes: "5km Saturday run. Focus on consistency rather than pace. Try to improve time gradually week on week." },
+  { label: "Run 6k", pill: "pill-run", focus: "Extending beyond 5k", notes: "6km — pushing past your baseline. Take your time on this one. Good prep for the 10k goal." },
+  { label: "Run 7k", pill: "pill-run", focus: "Building to 10k", notes: "7km Saturday long run. Keep easy pace. You're on track for the 10k goal." },
+  { label: "Run 8k", pill: "pill-run", focus: "Nearly there", notes: "8km — solid long run. You're close to 10k goal. Keep pace honest and controlled." },
+  { label: "Run 9k", pill: "pill-run", focus: "10k prep", notes: "9km run. Last big push before hitting 10k. Should feel very achievable at this point in the programme." },
+  { label: "Run 10k", pill: "pill-run", focus: "Goal achieved!", notes: "10km — goal run! Do this at easy-moderate effort. Celebrate this milestone. Continue maintaining 5-10k Saturdays from here." },
+  { label: "Run 5-8k", pill: "pill-run", focus: "Maintenance running", notes: "Maintenance Saturday run 5-8km depending on energy and how the week has gone. Keep the aerobic base you've built." },
+];
+const hockey = {
+  label: "Hockey",
+  pill: "pill-hockey",
+  focus: "Sport performance",
+  notes: "Hockey session. Active sport day — counts as conditioning. Manage intensity around gym sessions. Prioritise recovery nutrition after."
+};
+const rest = {
+  label: "Rest",
+  pill: "pill-rest",
+  focus: "Recovery & adaptation",
+  notes: "Rest day. This is where muscle growth actually happens. Light walking is fine. Focus on sleep, protein intake, hydration. No gym guilt — recovery is training."
+};
+
+// Generate a weekly template cycling through months
+// Week pattern: Mon Gym, Tue Run, Wed Gym, Thu Spin, Fri Gym, Sat Hockey, Sun Rest
+function getRunForDate(date) {
+  const start = new Date(2026,4,1);
+  const weekNum = Math.floor((date - start) / (7 * 86400000));
+  const idx = Math.min(Math.floor(weekNum / 1.3), runPhase.length - 1);
+  return runPhase[idx];
+}
+
+function getGymType(date) {
+  // alternate A/B each gym day
+  const start = new Date(2026,4,4); // first Monday gym day
+  const daysSinceStart = Math.floor((date - start) / 86400000);
+  const gymDayNum = Math.floor(daysSinceStart / 2); // rough every other day
+  // count actual gym days up to this point
+  return null; // will be set by gymCounter
+}
+
+let gymCounter = 0;
+
+function getActivityForDay(date) {
+  const dow = date.getDay(); // 0=Sun,1=Mon,...,6=Sat
+  // Schedule: Mon=Gym+Spin, Tue=Hockey, Wed=Gym, Thu=Run 3k, Fri=Gym, Sat=Run (progressive), Sun=Rest
+  if (dow === 0) return { ...rest };
+  if (dow === 1) {
+    gymCounter++;
+    const g = gymCounter % 2 === 1 ? gymA : gymB;
+    return { label: `${g.label} + Spin`, pill: "pill-spin", focus: `${g.focus} + Spin class`, notes: `Double session day: ${g.notes}\n\nThen Spin class after. Keep spin intensity moderate — you've already worked hard. Fuel well beforehand and recover well tonight.` };
+  }
+  if (dow === 2) return { ...hockey };
+  if (dow === 3) {
+    gymCounter++;
+    return gymCounter % 2 === 1 ? { ...gymA } : { ...gymB };
+  }
+  if (dow === 4) return { label: "Run 3k", pill: "pill-run", focus: "Short recovery run", notes: "Easy 3km Thursday run. Keep the pace conversational — this is a short, active recovery session between gym days. Focus on breathing control and enjoy the movement. No pressure on pace." };
+  if (dow === 5) {
+    gymCounter++;
+    return gymCounter % 2 === 1 ? { ...gymA } : { ...gymB };
+  }
+  if (dow === 6) return getRunForDate(date);
+  return { ...rest };
+}
+
+// Build all days May 1 2026 to Feb 28 2027
+const allDays = [];
+gymCounter = 0;
+const startDate = new Date(2026, 4, 1);
+const endDate = new Date(2027, 1, 28);
+let cur = new Date(startDate);
+while (cur <= endDate) {
+  const d = new Date(cur);
+  const activity = getActivityForDay(d);
+  allDays.push({
+    date: d,
+    dateKey: d.toISOString().slice(0,10),
+    ...activity
+  });
+  cur.setDate(cur.getDate() + 1);
+}
+
+const MONTHS = [
+  { year: 2026, month: 4, name: "May" },
+  { year: 2026, month: 5, name: "Jun" },
+  { year: 2026, month: 6, name: "Jul" },
+  { year: 2026, month: 7, name: "Aug" },
+  { year: 2026, month: 8, name: "Sep" },
+  { year: 2026, month: 9, name: "Oct" },
+  { year: 2026, month: 10, name: "Nov" },
+  { year: 2026, month: 11, name: "Dec" },
+  { year: 2027, month: 0, name: "Jan" },
+  { year: 2027, month: 1, name: "Feb" },
+];
+
+// =====================
+// STATE
+// =====================
+let completed = {};
+let currentMonth = 0;
+let currentView = 'calendar';
+let modalDayKey = null;
+
+function loadState() {
+  try {
+    const s = localStorage.getItem('fitplan_v1');
+    if (s) completed = JSON.parse(s);
+  } catch(e) {}
+}
+function saveState() {
+  try { localStorage.setItem('fitplan_v1', JSON.stringify(completed)); } catch(e) {}
+}
+
+// =====================
+// RENDER
+// =====================
+const DAY_NAMES = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const FULL_DAY_NAMES = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const FULL_MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function buildMonthTabs() {
+  const container = document.getElementById('monthTabs');
+  container.innerHTML = MONTHS.map((m, i) =>
+    `<button class="month-tab${i===0?' active':''}" onclick="selectMonth(${i})">${m.name}</button>`
+  ).join('');
+}
+
+function selectMonth(idx) {
+  currentMonth = idx;
+  document.querySelectorAll('.month-tab').forEach((t,i) => t.classList.toggle('active', i===idx));
+  document.querySelectorAll('.month-view').forEach((v,i) => v.classList.toggle('visible', i===idx));
+  document.querySelectorAll('.list-month-group').forEach((v,i) => v.classList.toggle('visible', i===idx));
+}
+
+function buildCalendarViews() {
+  const container = document.getElementById('calendarViews');
+  container.innerHTML = '';
+  MONTHS.forEach((m, mi) => {
+    const div = document.createElement('div');
+    div.className = 'month-view calendar-view' + (mi===0?' visible':'');
+
+    const phase = getPhase(new Date(m.year, m.month, 1));
+    div.innerHTML = `
+      <div class="month-header">
+        <div class="month-name">${FULL_MONTHS[m.month]} ${m.year}</div>
+        <div class="month-phase">${phase}</div>
+      </div>
+      <div class="cal-grid">
+        ${DAY_NAMES.map(d=>`<div class="cal-day-header">${d}</div>`).join('')}
+        ${buildCalMonth(m.year, m.month)}
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function buildCalMonth(year, month) {
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  const today = new Date(); today.setHours(0,0,0,0);
+
+  let html = '';
+  for (let i = 0; i < firstDay; i++) html += `<div class="cal-day empty"></div>`;
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date = new Date(year, month, d);
+    const key = date.toISOString().slice(0,10);
+    const day = allDays.find(x => x.dateKey === key);
+    if (!day) { html += `<div class="cal-day empty"></div>`; continue; }
+
+    const isToday = date.getTime() === today.getTime();
+    const isDone = completed[key];
+    html += `<div class="cal-day${isToday?' today':''}${isDone?' checked':''}" onclick="openModal('${key}')">
+      <div class="day-num">${d}</div>
+      <div class="day-pill ${day.pill}">${day.label}</div>
+      <div class="day-detail">${day.focus}</div>
+    </div>`;
+  }
+  return html;
+}
+
+function buildListViews() {
+  const container = document.getElementById('listViews');
+  container.innerHTML = '';
+  MONTHS.forEach((m, mi) => {
+    const div = document.createElement('div');
+    div.className = 'list-month-group list-view' + (mi===0?' visible':'');
+
+    const monthDays = allDays.filter(d => d.date.getFullYear()===m.year && d.date.getMonth()===m.month);
+    const phase = getPhase(new Date(m.year, m.month, 1));
+
+    let weeksHtml = '';
+    let weekDays = [];
+    let weekNum = 1;
+
+    monthDays.forEach((day, i) => {
+      weekDays.push(day);
+      const isLastDay = i === monthDays.length - 1;
+      const isEndOfWeek = day.date.getDay() === 0;
+
+      if (isEndOfWeek || isLastDay) {
+        const weekStart = weekDays[0].date;
+        const weekEnd = weekDays[weekDays.length-1].date;
+        const fmtDate = d => `${d.getDate()} ${FULL_MONTHS[d.getMonth()].slice(0,3)}`;
+        weeksHtml += `<div class="list-week">
+          <div class="list-week-header">Week ${weekNum} · ${fmtDate(weekStart)} – ${fmtDate(weekEnd)}</div>
+          ${weekDays.map(wd => {
+            const key = wd.dateKey;
+            const isDone = completed[key];
+            return `<div class="list-day-row${isDone?' checked':''}" onclick="openModal('${key}')">
+              <div class="list-day-name">${DAY_NAMES[wd.date.getDay()]}</div>
+              <div class="list-day-date">${wd.date.getDate()} ${FULL_MONTHS[wd.date.getMonth()].slice(0,3)}</div>
+              <div class="list-day-activity"><span class="day-pill ${wd.pill}">${wd.label}</span></div>
+              <div class="list-day-notes">${wd.focus}</div>
+              <button class="check-btn${isDone?' done':''}" onclick="toggleComplete(event,'${key}')">${isDone?'✓':''}</button>
+            </div>`;
+          }).join('')}
+        </div>`;
+        weekDays = [];
+        weekNum++;
+      }
+    });
+
+    div.innerHTML = `
+      <div class="list-month-title">${FULL_MONTHS[m.month]} ${m.year} <span class="month-phase" style="font-size:1rem">${phase}</span></div>
+      ${weeksHtml}
+    `;
+    container.appendChild(div);
+  });
+}
+
+function setView(v) {
+  currentView = v;
+  document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+
+  document.querySelectorAll('.calendar-view').forEach(el => {
+    el.style.display = v==='calendar' ? '' : 'none';
+  });
+  document.querySelectorAll('.list-view').forEach(el => {
+    el.style.display = v==='list' ? '' : 'none';
+  });
+}
+
+// =====================
+// MODAL
+// =====================
+function openModal(key) {
+  const day = allDays.find(d => d.dateKey === key);
+  if (!day) return;
+  modalDayKey = key;
+
+  const d = day.date;
+  document.getElementById('modalDate').textContent =
+    `${FULL_DAY_NAMES[d.getDay()]}, ${d.getDate()} ${FULL_MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+  document.getElementById('modalTitle').textContent = day.label;
+  document.getElementById('modalTitle').style.color =
+    day.pill.includes('gym-a') ? 'var(--gym-a)' :
+    day.pill.includes('gym-b') ? 'var(--gym-b)' :
+    day.pill.includes('spin') ? 'var(--spin)' :
+    day.pill.includes('run') ? 'var(--run)' :
+    day.pill.includes('hockey') ? 'var(--hockey)' : 'var(--muted)';
+
+  document.getElementById('modalActivity').textContent = day.label;
+  document.getElementById('modalFocus').textContent = day.focus;
+  document.getElementById('modalNotes').textContent = day.notes;
+
+  const btn = document.getElementById('modalCheckBtn');
+  if (completed[key]) {
+    btn.textContent = '✓ Completed';
+    btn.classList.add('done');
+  } else {
+    btn.textContent = 'Mark Complete';
+    btn.classList.remove('done');
+  }
+
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModalBtn();
+}
+function closeModalBtn() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  modalDayKey = null;
+}
+
+function toggleFromModal() {
+  if (!modalDayKey) return;
+  toggleComplete(null, modalDayKey);
+  const btn = document.getElementById('modalCheckBtn');
+  if (completed[modalDayKey]) {
+    btn.textContent = '✓ Completed';
+    btn.classList.add('done');
+  } else {
+    btn.textContent = 'Mark Complete';
+    btn.classList.remove('done');
+  }
+}
+
+// =====================
+// COMPLETE TOGGLE
+// =====================
+function toggleComplete(e, key) {
+  if (e) e.stopPropagation();
+  completed[key] = !completed[key];
+  if (!completed[key]) delete completed[key];
+  saveState();
+  updateProgress();
+  refreshDay(key);
+}
+
+function refreshDay(key) {
+  // Update cal day
+  document.querySelectorAll(`[onclick="openModal('${key}')"]`).forEach(el => {
+    if (el.classList.contains('cal-day')) {
+      el.classList.toggle('checked', !!completed[key]);
+    }
+    if (el.classList.contains('list-day-row')) {
+      el.classList.toggle('checked', !!completed[key]);
+      const btn = el.querySelector('.check-btn');
+      if (btn) {
+        btn.classList.toggle('done', !!completed[key]);
+        btn.textContent = completed[key] ? '✓' : '';
+      }
+    }
+  });
+}
+
+function updateProgress() {
+  const done = Object.values(completed).filter(Boolean).length;
+  const total = allDays.length;
+  document.getElementById('completedCount').textContent = done;
+  document.getElementById('pctDone').textContent = Math.round(done/total*100) + '%';
+  document.getElementById('progressFill').style.width = (done/total*100) + '%';
+  document.getElementById('progressLabel').textContent = `${done} / ${total} days logged`;
+}
+
+// =====================
+// INIT
+// =====================
+loadState();
+buildMonthTabs();
+buildCalendarViews();
+buildListViews();
+updateProgress();
+
+// Hide list views initially
+document.querySelectorAll('.list-view').forEach(el => el.style.display = 'none');
+</script>
+</body>
+</html>
